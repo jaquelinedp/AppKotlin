@@ -28,9 +28,8 @@ class SharedPref(activity: Activity){
     fun getData(key: String): String?{
         val data = prefs?.getString(key, "")
         return data
-
-
-
-
-    }
+}
+fun remove( key: String){
+    prefs?.edit()?.remove()?.apply()
+}
 }

@@ -23,15 +23,15 @@ class ClienttHomeActivity : AppCompatActivity() {
             insets
         }
     }
-    private fun getUserFromSession(){
-        val sharedPref = SharedPref(this)
-        val gson = Gson()
-        val user = sharedPref.getData("user")
-        if (user != null){
-            val userJson = user as String
+        private fun getUserFromSession(){
+            val sharedPref = SharedPref(this)
             val gson = Gson()
-            val userObject = gson.fromJson(userJson, User::class.java)
-            Log.d("ClientHomeActivity", "User: $userObject")
+            val user = sharedPref.getData("user")
+            if (sharedPref.getData("user").isNullOrBlank()){
+                val userJson = user as String
+                val gson = Gson()
+                val user = gson.fromJson(sharedPref.getData("user"), User::class.java)
+                Log.d(TAG,"Usuario: $user" )
+            }
         }
-    }
 }

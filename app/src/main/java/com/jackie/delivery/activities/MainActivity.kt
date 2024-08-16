@@ -42,10 +42,11 @@ class MainActivity : AppCompatActivity() {
 
         imageViewGoToRegister?.setOnClickListener { goToRegister() }
         buttonLogin?.setOnClickListener { login() }
+        getUserFromSession()
     }
 
 
-    private fun login() {
+      fun login() {
         val email = editTextEmail?.text.toString() // NULL POINTER EXCEPTION
         val password = editTextPassword?.text.toString()
 
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             usersProvider.login(email, password)?.enqueue(object: Callback<ResponseHttp>{
                 override fun onResponse(call: Call<ResponseHttp>, response: Response<ResponseHttp>) {
              Log.d("MainActivity", "Response: ${response.body()}")
-                    if (response.isSuccessful ){
+                    if (response.isSuccessful == true){
 
                         Toast.makeText(this@MainActivity, response?.body()?.message, Toast.LENGTH_LONG).show()
                   saveUserInSession(response.body()?.data.toString())
@@ -96,11 +97,8 @@ private fun goToHome(){
         val sharedPref = SharedPref(this)
         val gson = Gson()
         val user = sharedPref.getData("user")
-        if (user != null){
-            val userJson = user as String
-            val gson = Gson()
-            val userObject = gson.fromJson(userJson, User::class.java)
-            goToHome()
+        if (sharedPref.getData("user").isNullOrBlank()){
+            val user = gson.fromJson(sharedPref.getData("user"), User::class.java)
         }
     }
     fun String.isEmailValid(): Boolean {
