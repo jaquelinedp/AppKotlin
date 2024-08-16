@@ -17,4 +17,7 @@ private var usersRoutes:UsersRoutes? = null
     fun register (user: User):Call<ResponseHttp>?{
         return  usersRoutes?.register(user)
     }
+    fun login(email:String, password:String):Call<ResponseHttp>?{
+        return usersRoutes?.login(email, password)
+    }
 }
